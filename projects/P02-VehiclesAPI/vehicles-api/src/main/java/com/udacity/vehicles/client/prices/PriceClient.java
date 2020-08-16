@@ -2,6 +2,10 @@ package com.udacity.vehicles.client.prices;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -19,6 +23,16 @@ public class PriceClient {
         this.client = pricing;
     }
 
+    /*@Bean(name = "pricing")
+    WebClient webClientPricing(@Value("${pricing.endpoint}") String endpoint, LoadBalancerClient lClient) {
+
+        return WebClient.builder().filter(new LoadBalancerExchangeFilterFunction(lClient)).
+
+        baseUrl(endpoint).build();
+
+    }*/
+
+
     // In a real-world application we'll want to add some resilience
     // to this method with retries/CB/failover capabilities
     // We may also want to cache the results so we don't need to
@@ -35,7 +49,7 @@ public class PriceClient {
             Price price = client
                     .get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("services/price/")
+                            .path("services/price")
                             .queryParam("vehicleId", vehicleId)
                             .build()
                     )

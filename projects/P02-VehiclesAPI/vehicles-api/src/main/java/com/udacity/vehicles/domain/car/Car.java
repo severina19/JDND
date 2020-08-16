@@ -49,6 +49,14 @@ public class Car {
     @Transient
     private String price;
 
+    public Car(Condition condition) {
+        this.condition = condition;
+        this.location = new Location(0d, 0d);
+    }
+    public Car() {
+        this.location = new Location(0d, 0d);
+    }
+
     public Long getId() {
         return id;
     }
