@@ -5,6 +5,7 @@ import com.example.demo.model.requests.CreateUserRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
-public class SareetaApplicationTests {
+public class EcommerceApplicationTests {
 	@Autowired
 	private MockMvc mvc;
 
@@ -49,12 +50,12 @@ public class SareetaApplicationTests {
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsBytes(object);
 	}
-	/*@Before
+	@BeforeClass
 	public void setup() throws Exception{
 		createUser();
-	}*/
+	}
 
-	@Test
+	//@Test
 	public void createUser() throws Exception {
 		CreateUserRequest userRequest = getUserRequest("Anja", "asdfghjk");
 
@@ -68,7 +69,6 @@ public class SareetaApplicationTests {
 
 	@Test
 	public void loginUser() throws Exception{
-		createUser();
 		User user = new User();
 		user.setUsername("Anja");
 		user.setPassword("asdfghjk");
