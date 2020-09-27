@@ -28,9 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
-@AutoConfigureJsonTesters
+@SpringBootTest
 public class EcommerceApplicationTests {
 	@Autowired
 	private MockMvc mvc;
@@ -45,52 +43,5 @@ public class EcommerceApplicationTests {
 	public void contextLoads() {
 	}
 
-	public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		return mapper.writeValueAsBytes(object);
-	}
-	@BeforeClass
-	public void setup() throws Exception{
-		createUser();
-	}
-
-	//@Test
-	public void createUser() throws Exception {
-		CreateUserRequest userRequest = getUserRequest("Anja", "asdfghjk");
-
-		mvc.perform(
-				post(new URI("/api/user/create"))
-						.content(convertObjectToJsonBytes(userRequest))
-						.contentType(MediaType.APPLICATION_JSON_UTF8)
-						.accept(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk());
-	}
-
-	@Test
-	public void loginUser() throws Exception{
-		User user = new User();
-		user.setUsername("Anja");
-		user.setPassword("asdfghjk");
-		mvc.perform(
-				post(new URI("/login"))
-						.content(convertObjectToJsonBytes(user))
-						.contentType(MediaType.APPLICATION_JSON_UTF8)
-						)
-				.andExpect(status().isOk());
-	}
-
-	/**
-	 * Creates an example User object for use in testing.
-	 * @return an example User object
-	 */
-	private CreateUserRequest getUserRequest(String username, String password) {
-		CreateUserRequest userRequest = new CreateUserRequest();
-		userRequest.setPassword(password);
-		userRequest.setUsername(username);
-		userRequest.setConfirmPassword("asdfghjk");
-
-		return userRequest;
-	}
 
 }
