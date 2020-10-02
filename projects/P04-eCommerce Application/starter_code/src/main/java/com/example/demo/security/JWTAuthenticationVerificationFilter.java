@@ -2,6 +2,9 @@ package com.example.demo.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.demo.controllers.UserController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +24,9 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
     public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
+
+
+    private static final Logger log = LoggerFactory.getLogger(JWTAuthenticationVerificationFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -53,6 +59,8 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
             }
             return null;
         }
+        log.info("Unautherized user request");
+
         return null;
     }
 }
