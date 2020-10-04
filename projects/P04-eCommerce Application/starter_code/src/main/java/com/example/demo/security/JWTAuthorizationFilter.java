@@ -19,8 +19,7 @@ import java.util.ArrayList;
 
 import static com.example.demo.security.SecurityConstants.TOKEN_PREFIX;
 
-public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter
-{
+public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
     public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
