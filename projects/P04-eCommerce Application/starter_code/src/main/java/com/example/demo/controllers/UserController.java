@@ -51,6 +51,11 @@ public class UserController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+		User existUser = userRepository.findByUsername(createUserRequest.getUsername());
+		if (existUser != null) {
+			throw new UserExistsException("User with same name already exists, please choose another name!");
+		}
+
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		log.info("User name set with " + createUserRequest.getUsername());
