@@ -2,7 +2,6 @@ package com.example.demo.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.demo.controllers.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,13 +18,13 @@ import java.util.ArrayList;
 
 import static com.example.demo.security.SecurityConstants.TOKEN_PREFIX;
 
-public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
-    public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
+public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+    private static final Logger log = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
+
+
+    public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
-
-
-    private static final Logger log = LoggerFactory.getLogger(JWTAuthenticationVerificationFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -37,9 +36,7 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
             chain.doFilter(req, res);
             return;
         }
-
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
@@ -52,14 +49,12 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
-
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
             return null;
         }
         log.info("Unautherized user request");
-
         return null;
     }
 }

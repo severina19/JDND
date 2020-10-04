@@ -11,3 +11,5 @@ Thumbs.db
 */target/**
 target/
 *.iml
+
+projects/P04-eCommerce\ Application/starter_code/logs/
